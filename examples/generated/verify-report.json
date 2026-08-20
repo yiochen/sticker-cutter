@@ -1,0 +1,120 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "file:metadata.json",
+      "passed": true,
+      "detail": "present"
+    },
+    {
+      "name": "file:print-sheet.png",
+      "passed": true,
+      "detail": "present"
+    },
+    {
+      "name": "file:cut-sheet.svg",
+      "passed": true,
+      "detail": "present"
+    },
+    {
+      "name": "file:preview.png",
+      "passed": true,
+      "detail": "present"
+    },
+    {
+      "name": "print-raster-size",
+      "passed": true,
+      "detail": "actual=(1275, 1650), expected=(1275, 1650)"
+    },
+    {
+      "name": "print-dpi",
+      "passed": true,
+      "detail": "actual=(150.01239999999999, 150.01239999999999), expected=150.0"
+    },
+    {
+      "name": "svg-physical-page-size",
+      "passed": true,
+      "detail": "actual=(215.9, 279.4) mm, expected=(215.9, 279.4) mm"
+    },
+    {
+      "name": "svg-mm-viewbox",
+      "passed": true,
+      "detail": "viewBox=[0.0, 0.0, 215.9, 279.4]"
+    },
+    {
+      "name": "svg-layers",
+      "passed": true,
+      "detail": "layers=['Cut', 'Print', 'Regmarks']"
+    },
+    {
+      "name": "registration-element-ids",
+      "passed": true,
+      "detail": "found=['regmark-bl', 'regmark-tl', 'regmark-tr']"
+    },
+    {
+      "name": "cut-path-count",
+      "passed": true,
+      "detail": "svg=4, metadata=4"
+    },
+    {
+      "name": "svg-artwork-placement",
+      "passed": true,
+      "detail": "artwork_rect_mm={'left': 67.95, 'top': 104.7, 'right': 147.95, 'bottom': 174.7, 'width': 80.0, 'height': 70.0}"
+    },
+    {
+      "name": "print-artwork-placement-transform",
+      "passed": true,
+      "detail": "recorded={'x': 401, 'y': 618, 'width': 472, 'height': 413}, calculated={'x': 401, 'y': 618, 'width': 472, 'height': 413}"
+    },
+    {
+      "name": "registration-coordinate-agreement",
+      "passed": true,
+      "detail": "origin={'x': 10.0, 'y': 10.0}, spacing={'x': 195.9, 'y': 259.4}"
+    },
+    {
+      "name": "cut-path-coordinate-agreement",
+      "passed": true,
+      "detail": "checked=4"
+    },
+    {
+      "name": "input-pixel-to-mm-transform",
+      "passed": true,
+      "detail": "scale=0.1 mm/px, expected=0.1"
+    },
+    {
+      "name": "page-mm-to-print-transform",
+      "passed": true,
+      "detail": "scale=5.90551181102 px/mm, expected=5.90551181102"
+    },
+    {
+      "name": "closed-cut-contours",
+      "passed": true,
+      "detail": "checked=4"
+    },
+    {
+      "name": "contour-bbox-agreement",
+      "passed": true,
+      "detail": "checked=4"
+    },
+    {
+      "name": "registration-safe-layout",
+      "passed": true,
+      "detail": "safe_rect_mm={'left': 30.0, 'top': 30.0, 'right': 185.9, 'bottom': 249.39999999999998, 'width': 155.9, 'height': 219.39999999999998}"
+    },
+    {
+      "name": "sha256:print_sheet",
+      "passed": true,
+      "detail": "actual=f666017c3604492c580e365d1afa85d991ea54a51fa66d20063e49a012cad3d1"
+    },
+    {
+      "name": "sha256:cut_sheet",
+      "passed": true,
+      "detail": "actual=d6fd87c13da1b7c47af90e41d4730e2d43dbd2df09cccd6b5d6fa03f3ed3bb26"
+    },
+    {
+      "name": "sha256:preview",
+      "passed": true,
+      "detail": "actual=513f3792f80a46a829133fe4285937d6d59ccd491038ec662b4a28d28f4017a2"
+    }
+  ]
+}
