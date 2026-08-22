@@ -39,7 +39,7 @@ def run_dry_run(
     *,
     driver: Path | None = None,
     python_executable: Path | None = None,
-    force_hardware: str = "Silhouette_Cameo3",
+    force_hardware: str = "Silhouette_Cameo5_Alpha",
 ) -> dict:
     svg_path = svg_path.resolve()
     output_dir = svg_path.parent / "dry-run"

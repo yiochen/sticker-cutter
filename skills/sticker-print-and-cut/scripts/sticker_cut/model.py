@@ -101,6 +101,20 @@ class Sticker:
     cut_polygon: Polygon
 
 
+@dataclass(frozen=True)
+class ContourConflict:
+    sticker_ids: tuple[str, str]
+    relationship: str
+    intersection_area_mm2: float
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "sticker_ids": list(self.sticker_ids),
+            "relationship": self.relationship,
+            "intersection_area_mm2": self.intersection_area_mm2,
+        }
+
+
 @dataclass
 class Layout:
     input_path: Path
@@ -114,6 +128,7 @@ class Layout:
     border_mm: float
     stickers: list[Sticker]
     mask_source: str
+    contour_conflicts: list[ContourConflict] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
     @property

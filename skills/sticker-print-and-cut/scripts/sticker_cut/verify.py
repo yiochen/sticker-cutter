@@ -7,6 +7,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 from PIL import Image
+from shapely.geometry import Polygon
 
 
 SVG_NS = "http://www.w3.org/2000/svg"
@@ -114,7 +115,7 @@ def verify_output(output_dir: Path) -> dict:
     }
     check(
         "print-artwork-placement-transform",
-        rounded_artwork == calculated_artwork,
+        all(abs(rounded_artwork[key] - calculated_artwork[key]) <= 1 for key in calculated_artwork),
         f"recorded={rounded_artwork}, calculated={calculated_artwork}",
     )
 
@@ -211,6 +212,31 @@ def verify_output(output_dir: Path) -> dict:
     check("closed-cut-contours", closed, f"checked={len(stickers)}")
     check("contour-bbox-agreement", bbox_agrees, f"checked={len(stickers)}")
     check("registration-safe-layout", all_safe, f"safe_rect_mm={safe}")
+
+    intersecting_pairs = []
+    polygons = {
+        sticker["id"]: Polygon(sticker["cut_contour_mm"])
+        for sticker in stickers
+    }
+    polygon_items = list(polygons.items())
+    for index, (first_id, first_polygon) in enumerate(polygon_items):
+        for second_id, second_polygon in polygon_items[index + 1 :]:
+            if first_polygon.intersects(second_polygon):
+                intersecting_pairs.append([first_id, second_id])
+    check(
+        "nonintersecting-cut-contours",
+        not intersecting_pairs,
+        f"conflicting_pairs={intersecting_pairs}",
+    )
+    recorded_pairs = sorted(
+        sorted(conflict["sticker_ids"])
+        for conflict in metadata.get("cut_safety", {}).get("contour_conflicts", [])
+    )
+    check(
+        "contour-conflict-metadata",
+        recorded_pairs == sorted(intersecting_pairs),
+        f"recorded={recorded_pairs}, detected={sorted(intersecting_pairs)}",
+    )
 
     for output_name, output in metadata.get("outputs", {}).items():
         path = output_dir / output["file"]

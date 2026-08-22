@@ -1,5 +1,5 @@
 {
-  "passed": true,
+  "passed": false,
   "checks": [
     {
       "name": "file:metadata.json",
@@ -102,6 +102,16 @@
       "detail": "safe_rect_mm={'left': 30.0, 'top': 30.0, 'right': 185.9, 'bottom': 249.39999999999998, 'width': 155.9, 'height': 219.39999999999998}"
     },
     {
+      "name": "nonintersecting-cut-contours",
+      "passed": false,
+      "detail": "conflicting_pairs=[['sticker-001', 'sticker-003'], ['sticker-002', 'sticker-004'], ['sticker-003', 'sticker-005'], ['sticker-004', 'sticker-006'], ['sticker-005', 'sticker-007']]"
+    },
+    {
+      "name": "contour-conflict-metadata",
+      "passed": true,
+      "detail": "recorded=[['sticker-001', 'sticker-003'], ['sticker-002', 'sticker-004'], ['sticker-003', 'sticker-005'], ['sticker-004', 'sticker-006'], ['sticker-005', 'sticker-007']], detected=[['sticker-001', 'sticker-003'], ['sticker-002', 'sticker-004'], ['sticker-003', 'sticker-005'], ['sticker-004', 'sticker-006'], ['sticker-005', 'sticker-007']]"
+    },
+    {
       "name": "sha256:print_sheet",
       "passed": true,
       "detail": "actual=cf1b8e16e07de6fa720f2c166a0ff3b65685f17ff026cd6e466b865353dc94d2"
@@ -114,7 +124,7 @@
     {
       "name": "sha256:preview",
       "passed": true,
-      "detail": "actual=c2cbd229a79b11e325dbcb56405b816ec4e61f40b0b139b0d96774f0adbb6151"
+      "detail": "actual=e70f4a2315754d8bfe57d00240b51a186c2994cd637ad30cafac32498a68ada6"
     }
   ]
 }

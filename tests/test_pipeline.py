@@ -8,6 +8,7 @@ import pytest
 from PIL import Image, ImageDraw
 
 from sticker_cut.geometry import PreparationError, build_layout, page_spec, parse_mm
+from sticker_cut.normalize import normalize_sticker_sheet
 from sticker_cut.output import write_outputs
 from sticker_cut.silhouette import run_dry_run
 from sticker_cut.verify import verify_output
@@ -130,7 +131,98 @@ def test_generated_artifacts_verify_and_use_upstream_layer_convention(tmp_path: 
     assert {"regmark-tl", "regmark-tr", "regmark-bl"}.issubset(ids)
     metadata = json.loads((output / "metadata.json").read_text())
     assert metadata["sticker_count"] == 2
+    assert metadata["cut_safety"]["regeneration_required"] is False
     assert metadata["coordinate_transforms"]["cut_paths"].startswith("SVG viewBox")
+
+
+def test_intersecting_cut_contours_require_regeneration(tmp_path: Path) -> None:
+    source = tmp_path / "crowded.png"
+    save_rgba(
+        source,
+        (600, 400),
+        lambda draw: (
+            draw.rectangle((80, 100, 229, 299), fill="orange"),
+            draw.rectangle((260, 100, 409, 299), fill="teal"),
+        ),
+    )
+    layout = build_layout(source, page=page_spec("letter"), input_dpi=254, border_mm=2, output_dpi=150)
+
+    assert len(layout.stickers) == 2
+    assert len(layout.contour_conflicts) == 1
+    assert layout.contour_conflicts[0].sticker_ids == ("sticker-001", "sticker-002")
+    assert layout.contour_conflicts[0].relationship == "overlap"
+
+    output = tmp_path / "output"
+    write_outputs(layout, output)
+    report = verify_output(output)
+    metadata = json.loads((output / "metadata.json").read_text())
+    safety_check = next(check for check in report["checks"] if check["name"] == "nonintersecting-cut-contours")
+
+    assert report["passed"] is False
+    assert safety_check["passed"] is False
+    assert "sticker-001" in safety_check["detail"]
+    assert metadata["cut_safety"]["regeneration_required"] is True
+    assert metadata["cut_safety"]["contour_conflict_count"] == 1
+
+
+@pytest.mark.parametrize(
+    ("size_basis", "expected_artwork_mm", "expected_finished_mm"),
+    [("artwork", 20.0, 24.0), ("finished", 16.0, 20.0)],
+)
+def test_normalize_enforces_each_sticker_size_before_border(
+    tmp_path: Path,
+    size_basis: str,
+    expected_artwork_mm: float,
+    expected_finished_mm: float,
+) -> None:
+    source = tmp_path / "varied.png"
+    save_rgba(
+        source,
+        (800, 500),
+        lambda draw: (
+            draw.rectangle((40, 60, 339, 209), fill="orange"),
+            draw.ellipse((500, 80, 649, 379), fill="teal"),
+        ),
+    )
+    normalized_path = tmp_path / f"normalized-{size_basis}.png"
+    result = normalize_sticker_sheet(
+        source,
+        normalized_path,
+        sticker_size_mm=20,
+        size_basis=size_basis,
+        page=page_spec("letter"),
+        output_dpi=300,
+        border_mm=2,
+        clearance_mm=2,
+    )
+    layout = build_layout(normalized_path, page=page_spec("letter"), input_dpi=300, border_mm=2)
+
+    assert len(result.stickers) == 2
+    assert len(layout.stickers) == 2
+    assert not layout.contour_conflicts
+    for sticker in layout.stickers:
+        artwork_longest = max(sticker.artwork_bbox_mm.width, sticker.artwork_bbox_mm.height)
+        cut_bounds = sticker.cut_polygon.bounds
+        finished_longest = max(cut_bounds[2] - cut_bounds[0], cut_bounds[3] - cut_bounds[1])
+        assert artwork_longest == pytest.approx(expected_artwork_mm, abs=0.2)
+        assert finished_longest == pytest.approx(expected_finished_mm, abs=0.3)
+
+
+def test_normalize_never_silently_shrinks_to_fit_page(tmp_path: Path) -> None:
+    source = tmp_path / "one.png"
+    save_rgba(source, (200, 200), lambda draw: draw.ellipse((20, 20, 179, 179), fill="orange"))
+
+    with pytest.raises(PreparationError, match="do not fit"):
+        normalize_sticker_sheet(
+            source,
+            tmp_path / "normalized.png",
+            sticker_size_mm=180,
+            size_basis="artwork",
+            page=page_spec("letter"),
+            output_dpi=300,
+            border_mm=2,
+            clearance_mm=2,
+        )
 
 
 def test_page_safety_rejects_oversized_physical_input(tmp_path: Path) -> None:

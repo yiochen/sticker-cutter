@@ -7,7 +7,7 @@
     "height_mm": 279.4
   },
   "input": {
-    "file": "/Users/yiouchen/dev/sticker_cutter/examples/synthetic-stickers.png",
+    "file": "synthetic-stickers.png",
     "sha256": "80b655b846a633a55097de270a19dd8a08d8ffe3a2cd7243ec8c0c01fe8e6239",
     "width_px": 800,
     "height_px": 700,

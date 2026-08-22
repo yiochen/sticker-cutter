@@ -19,6 +19,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
 silhouette = [
+  "bleak>=1.0",
   "cssselect>=1.1",
   "inkex>=1.3",
   "libusb1>=3.1",
@@ -32,8 +33,9 @@ silhouette = [
 sticker-cut = "sticker_cut.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/sticker_cut"]
+packages = ["skills/sticker-print-and-cut/scripts/sticker_cut"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+pythonpath = ["skills/sticker-print-and-cut/scripts"]

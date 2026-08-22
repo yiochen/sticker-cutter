@@ -1,0 +1,291 @@
+{
+  "output": "normalized.png",
+  "metadata": "normalized.normalization.json",
+  "sticker_count": 12,
+  "requested_sticker_size_mm": 30.0,
+  "size_basis": "artwork",
+  "target_artwork_longest_side_mm": 30.0,
+  "estimated_finished_longest_side_mm": 34.0,
+  "dpi": 300.0,
+  "border_mm": 2.0,
+  "clearance_mm": 2.0,
+  "closing_mm": 0.3,
+  "page": {
+    "name": "letter",
+    "width_mm": 215.9,
+    "height_mm": 279.4
+  },
+  "packing": {
+    "columns": 3,
+    "rows": 4
+  },
+  "warnings": [
+    "Foreground detection used alpha."
+  ],
+  "stickers": [
+    {
+      "id": "sticker-001",
+      "source_bbox_px": {
+        "x": 16,
+        "y": 63,
+        "width": 490,
+        "height": 155
+      },
+      "source_area_px": 31470,
+      "scale": 0.7224489795918367,
+      "output_bbox_px": {
+        "x": 25,
+        "y": 146,
+        "width": 354,
+        "height": 112
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.482666666666667,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-002",
+      "source_bbox_px": {
+        "x": 534,
+        "y": 64,
+        "width": 488,
+        "height": 156
+      },
+      "source_area_px": 31196,
+      "scale": 0.7254098360655737,
+      "output_bbox_px": {
+        "x": 450,
+        "y": 145,
+        "width": 354,
+        "height": 113
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.567333333333334,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-003",
+      "source_bbox_px": {
+        "x": 1058,
+        "y": 67,
+        "width": 453,
+        "height": 155
+      },
+      "source_area_px": 29385,
+      "scale": 0.7814569536423841,
+      "output_bbox_px": {
+        "x": 875,
+        "y": 141,
+        "width": 354,
+        "height": 121
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 10.244666666666667,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-004",
+      "source_bbox_px": {
+        "x": 1058,
+        "y": 291,
+        "width": 454,
+        "height": 163
+      },
+      "source_area_px": 29191,
+      "scale": 0.7797356828193832,
+      "output_bbox_px": {
+        "x": 25,
+        "y": 563,
+        "width": 354,
+        "height": 127
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 10.752666666666666,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-005",
+      "source_bbox_px": {
+        "x": 17,
+        "y": 292,
+        "width": 491,
+        "height": 161
+      },
+      "source_area_px": 32274,
+      "scale": 0.7209775967413442,
+      "output_bbox_px": {
+        "x": 450,
+        "y": 569,
+        "width": 354,
+        "height": 116
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.821333333333333,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-006",
+      "source_bbox_px": {
+        "x": 531,
+        "y": 298,
+        "width": 496,
+        "height": 155
+      },
+      "source_area_px": 32285,
+      "scale": 0.7137096774193549,
+      "output_bbox_px": {
+        "x": 875,
+        "y": 571,
+        "width": 354,
+        "height": 111
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.398,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-007",
+      "source_bbox_px": {
+        "x": 532,
+        "y": 525,
+        "width": 490,
+        "height": 158
+      },
+      "source_area_px": 32684,
+      "scale": 0.7224489795918367,
+      "output_bbox_px": {
+        "x": 25,
+        "y": 995,
+        "width": 354,
+        "height": 114
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.652000000000001,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-008",
+      "source_bbox_px": {
+        "x": 13,
+        "y": 526,
+        "width": 494,
+        "height": 162
+      },
+      "source_area_px": 33849,
+      "scale": 0.7165991902834008,
+      "output_bbox_px": {
+        "x": 450,
+        "y": 994,
+        "width": 354,
+        "height": 116
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.821333333333333,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-009",
+      "source_bbox_px": {
+        "x": 1052,
+        "y": 527,
+        "width": 465,
+        "height": 159
+      },
+      "source_area_px": 31680,
+      "scale": 0.7612903225806451,
+      "output_bbox_px": {
+        "x": 875,
+        "y": 991,
+        "width": 354,
+        "height": 121
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 10.244666666666667,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-010",
+      "source_bbox_px": {
+        "x": 536,
+        "y": 763,
+        "width": 490,
+        "height": 161
+      },
+      "source_area_px": 32868,
+      "scale": 0.7224489795918367,
+      "output_bbox_px": {
+        "x": 25,
+        "y": 1419,
+        "width": 354,
+        "height": 116
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.821333333333333,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-011",
+      "source_bbox_px": {
+        "x": 20,
+        "y": 765,
+        "width": 487,
+        "height": 158
+      },
+      "source_area_px": 32717,
+      "scale": 0.7268993839835729,
+      "output_bbox_px": {
+        "x": 450,
+        "y": 1419,
+        "width": 354,
+        "height": 115
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 9.736666666666666,
+        "longest_side": 29.972
+      }
+    },
+    {
+      "id": "sticker-012",
+      "source_bbox_px": {
+        "x": 1052,
+        "y": 765,
+        "width": 469,
+        "height": 159
+      },
+      "source_area_px": 31417,
+      "scale": 0.7547974413646056,
+      "output_bbox_px": {
+        "x": 875,
+        "y": 1417,
+        "width": 354,
+        "height": 120
+      },
+      "output_artwork_mm": {
+        "width": 29.972,
+        "height": 10.16,
+        "longest_side": 29.972
+      }
+    }
+  ]
+}

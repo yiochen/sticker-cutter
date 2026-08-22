@@ -24,12 +24,12 @@
     {
       "name": "print-raster-size",
       "passed": true,
-      "detail": "actual=(1275, 1650), expected=(1275, 1650)"
+      "detail": "actual=(2550, 3300), expected=(2550, 3300)"
     },
     {
       "name": "print-dpi",
       "passed": true,
-      "detail": "actual=(150.01239999999999, 150.01239999999999), expected=150.0"
+      "detail": "actual=(299.9994, 299.9994), expected=300.0"
     },
     {
       "name": "svg-physical-page-size",
@@ -54,17 +54,17 @@
     {
       "name": "cut-path-count",
       "passed": true,
-      "detail": "svg=4, metadata=4"
+      "detail": "svg=12, metadata=12"
     },
     {
       "name": "svg-artwork-placement",
       "passed": true,
-      "detail": "artwork_rect_mm={'left': 67.95, 'top': 104.7, 'right': 147.95, 'bottom': 174.7, 'width': 80.0, 'height': 70.0}"
+      "detail": "artwork_rect_mm={'left': 54.864, 'top': 68.62233, 'right': 161.036, 'bottom': 210.77767, 'width': 106.172, 'height': 142.15533}"
     },
     {
       "name": "print-artwork-placement-transform",
       "passed": true,
-      "detail": "recorded={'x': 401, 'y': 618, 'width': 472, 'height': 413}, calculated={'x': 401, 'y': 618, 'width': 472, 'height': 413}"
+      "detail": "recorded={'x': 648, 'y': 810, 'width': 1254, 'height': 1679}, calculated={'x': 648, 'y': 810, 'width': 1254, 'height': 1679}"
     },
     {
       "name": "registration-coordinate-agreement",
@@ -74,27 +74,27 @@
     {
       "name": "cut-path-coordinate-agreement",
       "passed": true,
-      "detail": "checked=4"
+      "detail": "checked=12"
     },
     {
       "name": "input-pixel-to-mm-transform",
       "passed": true,
-      "detail": "scale=0.1 mm/px, expected=0.1"
+      "detail": "scale=0.0846666666667 mm/px, expected=0.0846666666667"
     },
     {
       "name": "page-mm-to-print-transform",
       "passed": true,
-      "detail": "scale=5.90551181102 px/mm, expected=5.90551181102"
+      "detail": "scale=11.811023622 px/mm, expected=11.811023622"
     },
     {
       "name": "closed-cut-contours",
       "passed": true,
-      "detail": "checked=4"
+      "detail": "checked=12"
     },
     {
       "name": "contour-bbox-agreement",
       "passed": true,
-      "detail": "checked=4"
+      "detail": "checked=12"
     },
     {
       "name": "registration-safe-layout",
@@ -114,17 +114,17 @@
     {
       "name": "sha256:print_sheet",
       "passed": true,
-      "detail": "actual=f666017c3604492c580e365d1afa85d991ea54a51fa66d20063e49a012cad3d1"
+      "detail": "actual=af7756187d1ebb128a3c20922f1c2348903bb6141a851801cfb826e077b872f6"
     },
     {
       "name": "sha256:cut_sheet",
       "passed": true,
-      "detail": "actual=d6fd87c13da1b7c47af90e41d4730e2d43dbd2df09cccd6b5d6fa03f3ed3bb26"
+      "detail": "actual=310a3289778b8c53db050dd1d4bca2fccf970df12b9931d12a25ee9514847ecc"
     },
     {
       "name": "sha256:preview",
       "passed": true,
-      "detail": "actual=513f3792f80a46a829133fe4285937d6d59ccd491038ec662b4a28d28f4017a2"
+      "detail": "actual=24f8bfe5d7e17c141c1231c226b8d2734ae232e1ebf5f1f4ecfdd075ade6957d"
     }
   ]
 }

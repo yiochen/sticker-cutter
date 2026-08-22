@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "canonical_units": "mm",
   "page": {
     "name": "letter",
@@ -7,7 +7,7 @@
     "height_mm": 279.4
   },
   "input": {
-    "file": "/Users/yiouchen/dev/sticker_cutter/examples/train-stickers/generated-source.png",
+    "file": "generated-source.png",
     "sha256": "5bc74cd6d01ca8f280ab5736aef9c37df18cbc2f23d8af56206b0630737b0ec1",
     "width_px": 1024,
     "height_px": 1536,
@@ -3270,6 +3270,52 @@
       ]
     }
   ],
+  "cut_safety": {
+    "regeneration_required": true,
+    "contour_conflict_count": 5,
+    "contour_conflicts": [
+      {
+        "sticker_ids": [
+          "sticker-001",
+          "sticker-003"
+        ],
+        "relationship": "overlap",
+        "intersection_area_mm2": 5.63677
+      },
+      {
+        "sticker_ids": [
+          "sticker-002",
+          "sticker-004"
+        ],
+        "relationship": "overlap",
+        "intersection_area_mm2": 0.44093
+      },
+      {
+        "sticker_ids": [
+          "sticker-003",
+          "sticker-005"
+        ],
+        "relationship": "overlap",
+        "intersection_area_mm2": 0.96717
+      },
+      {
+        "sticker_ids": [
+          "sticker-004",
+          "sticker-006"
+        ],
+        "relationship": "overlap",
+        "intersection_area_mm2": 1.01535
+      },
+      {
+        "sticker_ids": [
+          "sticker-005",
+          "sticker-007"
+        ],
+        "relationship": "overlap",
+        "intersection_area_mm2": 8.85404
+      }
+    ]
+  },
   "registration": {
     "style": "standard_three_point",
     "origin_mm": {
@@ -3350,7 +3396,10 @@
     "cut_paths": "SVG viewBox coordinates are millimeters and use the page origin directly.",
     "registration_marks": "SVG viewBox coordinates are millimeters and use the page origin directly."
   },
-  "warnings": [],
+  "warnings": [
+    "Input has no reliable DPI metadata; assumed 300 DPI. Use --input-dpi to override.",
+    "Detected 5 intersecting or touching cut-contour pair(s). Regenerate or reposition the sticker artwork with more spacing before printing or cutting."
+  ],
   "outputs": {
     "print_sheet": {
       "file": "print-sheet.png",
@@ -3362,7 +3411,7 @@
     },
     "preview": {
       "file": "preview.png",
-      "sha256": "c2cbd229a79b11e325dbcb56405b816ec4e61f40b0b139b0d96774f0adbb6151"
+      "sha256": "e70f4a2315754d8bfe57d00240b51a186c2994cd637ad30cafac32498a68ada6"
     }
   }
 }

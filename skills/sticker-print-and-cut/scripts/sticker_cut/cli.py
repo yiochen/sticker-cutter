@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from .geometry import PreparationError, build_layout, page_spec, parse_mm
+from .normalize import normalize_sticker_sheet
 from .output import write_outputs
 from .silhouette import run_dry_run
 from .verify import write_verify_report
@@ -36,6 +37,35 @@ def build_parser() -> argparse.ArgumentParser:
     prepare.add_argument("--simplify", type=parse_mm, default=0.12, metavar="LENGTH", help="contour simplification tolerance")
     prepare.add_argument("--reg-origin", type=parse_mm, default=10.0, metavar="LENGTH", help="registration origin from top/left")
 
+    normalize = subparsers.add_parser(
+        "normalize",
+        help="measure, resize, and repack individual stickers before adding cut borders",
+    )
+    normalize.add_argument("input", type=Path, help="input raster sticker sheet (transparent PNG recommended)")
+    normalize.add_argument("-o", "--output", type=Path, default=Path("normalized-stickers.png"))
+    normalize.add_argument(
+        "--sticker-size",
+        type=parse_mm,
+        required=True,
+        metavar="LENGTH",
+        help="target longest side of each sticker",
+    )
+    normalize.add_argument(
+        "--size-basis",
+        choices=("artwork", "finished"),
+        default="artwork",
+        help="whether --sticker-size measures artwork or the estimated bordered cut shape",
+    )
+    normalize.add_argument("--border", type=parse_mm, default=2.0, metavar="LENGTH")
+    normalize.add_argument("--clearance", type=parse_mm, default=2.0, metavar="LENGTH")
+    normalize.add_argument("--closing", type=parse_mm, default=0.3, metavar="LENGTH")
+    normalize.add_argument("--page", default="letter", help="letter, a4, or WIDTHxHEIGHT in mm")
+    normalize.add_argument("--dpi", type=_positive_float, default=300.0)
+    normalize.add_argument("--alpha-threshold", type=int, default=16)
+    normalize.add_argument("--background-threshold", type=float, default=24.0)
+    normalize.add_argument("--min-area-px", type=int, default=16)
+    normalize.add_argument("--reg-origin", type=parse_mm, default=10.0, metavar="LENGTH")
+
     verify = subparsers.add_parser("verify", help="validate agreement and safety of an output directory")
     verify.add_argument("output", type=Path)
 
@@ -43,13 +73,33 @@ def build_parser() -> argparse.ArgumentParser:
     dry.add_argument("svg", type=Path)
     dry.add_argument("--driver", type=Path, help="path to sendto_silhouette.py")
     dry.add_argument("--python", type=Path, help="Python interpreter containing inkex and driver dependencies")
-    dry.add_argument("--force-hardware", default="Silhouette_Cameo3", help="driver hardware name for deterministic command generation")
+    dry.add_argument("--force-hardware", default="Silhouette_Cameo5_Alpha", help="driver hardware name for deterministic command generation")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
+        if args.command == "normalize":
+            if not args.input.is_file():
+                raise PreparationError(f"Input file does not exist: {args.input}")
+            result = normalize_sticker_sheet(
+                args.input,
+                args.output,
+                sticker_size_mm=args.sticker_size,
+                size_basis=args.size_basis,
+                page=page_spec(args.page),
+                output_dpi=args.dpi,
+                border_mm=args.border,
+                clearance_mm=args.clearance,
+                closing_mm=args.closing,
+                alpha_threshold=args.alpha_threshold,
+                background_threshold=args.background_threshold,
+                min_area_px=args.min_area_px,
+                reg_origin_mm=args.reg_origin,
+            )
+            print(json.dumps(result.as_dict(), indent=2))
+            return 0
         if args.command == "prepare":
             if not args.input.is_file():
                 raise PreparationError(f"Input file does not exist: {args.input}")
@@ -72,6 +122,8 @@ def main(argv: list[str] | None = None) -> int:
                 "output": str(args.output.resolve()),
                 "sticker_count": len(layout.stickers),
                 "verified": report["passed"],
+                "regeneration_required": bool(layout.contour_conflicts),
+                "contour_conflicts": [conflict.as_dict() for conflict in layout.contour_conflicts],
                 "warnings": layout.warnings,
                 "files": {name: str(path.resolve()) for name, path in artifacts.items()},
             }

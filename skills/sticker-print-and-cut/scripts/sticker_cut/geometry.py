@@ -9,7 +9,7 @@ from PIL import Image
 from shapely.geometry import Polygon, box
 from shapely.geometry.base import BaseGeometry
 
-from .model import Layout, PageSpec, Rect, RegistrationSpec, Sticker
+from .model import ContourConflict, Layout, PageSpec, Rect, RegistrationSpec, Sticker
 
 
 PAGE_SIZES = {
@@ -90,6 +90,24 @@ def _largest_polygon(geometry: BaseGeometry) -> Polygon:
     if not polygons:
         raise PreparationError(f"Expected polygon geometry, got {geometry.geom_type}")
     return max(polygons, key=lambda polygon: polygon.area)
+
+
+def find_contour_conflicts(stickers: list[Sticker]) -> list[ContourConflict]:
+    """Return every pair of cut contours that overlaps or touches."""
+    conflicts: list[ContourConflict] = []
+    for index, first in enumerate(stickers):
+        for second in stickers[index + 1 :]:
+            if not first.cut_polygon.intersects(second.cut_polygon):
+                continue
+            intersection_area = first.cut_polygon.intersection(second.cut_polygon).area
+            conflicts.append(
+                ContourConflict(
+                    sticker_ids=(first.id, second.id),
+                    relationship="overlap" if intersection_area > 1e-6 else "touch",
+                    intersection_area_mm2=intersection_area,
+                )
+            )
+    return conflicts
 
 
 def build_layout(
@@ -210,6 +228,12 @@ def build_layout(
         warnings.append(f"Ignored {ignored} foreground component(s) below {min_area_mm2:g} mm² or without a usable contour.")
     if not stickers:
         raise PreparationError("No sticker-sized foreground components were detected")
+    contour_conflicts = find_contour_conflicts(stickers)
+    if contour_conflicts:
+        warnings.append(
+            f"Detected {len(contour_conflicts)} intersecting or touching cut-contour pair(s). "
+            "Regenerate or reposition the sticker artwork with more spacing before printing or cutting."
+        )
 
     return Layout(
         input_path=input_path,
@@ -223,5 +247,6 @@ def build_layout(
         border_mm=border_mm,
         stickers=stickers,
         mask_source=mask_source,
+        contour_conflicts=contour_conflicts,
         warnings=warnings,
     )

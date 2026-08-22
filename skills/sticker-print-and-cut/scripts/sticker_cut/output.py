@@ -254,6 +254,12 @@ def write_preview(layout: Layout, print_sheet: Image.Image, output_path: Path) -
     for sticker in layout.stickers:
         points = [(_mm_to_px(x, dpi), _mm_to_px(y, dpi)) for x, y in sticker.cut_polygon.exterior.coords]
         draw.line(points, fill=(255, 0, 30, 235), width=max(3, _mm_to_px(0.4, dpi)), joint="curve")
+    conflicted_ids = {sticker_id for conflict in layout.contour_conflicts for sticker_id in conflict.sticker_ids}
+    for sticker in layout.stickers:
+        if sticker.id not in conflicted_ids:
+            continue
+        points = [(_mm_to_px(x, dpi), _mm_to_px(y, dpi)) for x, y in sticker.cut_polygon.exterior.coords]
+        draw.line(points, fill=(255, 0, 210, 245), width=max(5, _mm_to_px(0.7, dpi)), joint="curve")
     preview = Image.alpha_composite(preview, overlay).convert("RGB")
     preview.save(output_path, dpi=(dpi, dpi), optimize=True)
 
@@ -296,11 +302,11 @@ def metadata_dict(layout: Layout, outputs: dict[str, Path]) -> dict:
             }
         )
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "canonical_units": "mm",
         "page": {"name": layout.page.name, "width_mm": layout.page.width_mm, "height_mm": layout.page.height_mm},
         "input": {
-            "file": str(layout.input_path.resolve()),
+            "file": layout.input_path.name,
             "sha256": _sha256(layout.input_path),
             "width_px": layout.input_width_px,
             "height_px": layout.input_height_px,
@@ -323,6 +329,17 @@ def metadata_dict(layout: Layout, outputs: dict[str, Path]) -> dict:
         "border_mm": layout.border_mm,
         "sticker_count": len(layout.stickers),
         "stickers": stickers,
+        "cut_safety": {
+            "regeneration_required": bool(layout.contour_conflicts),
+            "contour_conflict_count": len(layout.contour_conflicts),
+            "contour_conflicts": [
+                {
+                    **conflict.as_dict(),
+                    "intersection_area_mm2": _round(conflict.intersection_area_mm2),
+                }
+                for conflict in layout.contour_conflicts
+            ],
+        },
         "registration": layout.registration.as_dict(),
         "coordinate_transforms": {
             "input_pixels_to_page_mm": input_to_page,

@@ -4,3 +4,9 @@
 __pycache__/
 *.py[cod]
 /output/
+
+# Keep reproducible example sheets and previews, but ignore transient cutter runs.
+examples/**/*.log
+examples/**/*.bin
+examples/**/output/dry-run/
+examples/**/output/test-cut*.svg

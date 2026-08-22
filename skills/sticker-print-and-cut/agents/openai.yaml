@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sticker Print & Cut"
+  short_description: "Create and cut Cameo 5 Alpha sticker sheets"
+  default_prompt: "Use $sticker-print-and-cut to create, size, verify, print, and cut a sticker sheet with my Silhouette Cameo 5 Alpha."
